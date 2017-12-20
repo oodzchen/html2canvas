@@ -135,7 +135,13 @@ export default class ResourceLoader {
                 }
 
                 img.onerror = reject;
-                img.src = src + '?' + Date.now();
+
+                if (!this.isSameOrigin(src)) {
+                    img.src = src + '?' + Date.now();
+                } else {
+                    img.src = src;
+                }
+
                 if (img.complete === true) {
                     // Inline XML images may fail to parse, throwing an Error later on
                     setTimeout(() => {
